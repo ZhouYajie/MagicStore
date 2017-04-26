@@ -1,0 +1,179 @@
+@charset 'utf-8';
+@import '_reset.css';
+
+@function ptr($px, $base: 64px) {
+    @if (unitless($px)) {
+        @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+        @return px2em($px + 0); // That may fail. 
+    }
+    @else if (unit($px) == rem) {
+        @return $px;
+    }
+    @return ($px / $base) * 1rem;
+}
+
+@-webkit-keyframes swing {
+    20% {
+        -webkit-transform: rotate3d(0, 0, 1, 15deg);
+        transform: rotate3d(0, 0, 1, 15deg);
+    }
+
+    40% {
+        -webkit-transform: rotate3d(0, 0, 1, -10deg);
+        transform: rotate3d(0, 0, 1, -10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate3d(0, 0, 1, 5deg);
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+
+    80% {
+        -webkit-transform: rotate3d(0, 0, 1, -5deg);
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+
+    100% {
+        -webkit-transform: rotate3d(0, 0, 1, 0deg);
+        transform: rotate3d(0, 0, 1, 0deg);
+    }
+}
+
+@keyframes swing {
+    20% {
+        -webkit-transform: rotate3d(0, 0, 1, 15deg);
+        transform: rotate3d(0, 0, 1, 15deg);
+    }
+
+    40% {
+        -webkit-transform: rotate3d(0, 0, 1, -10deg);
+        transform: rotate3d(0, 0, 1, -10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate3d(0, 0, 1, 5deg);
+        transform: rotate3d(0, 0, 1, 5deg);
+    }
+
+    80% {
+        -webkit-transform: rotate3d(0, 0, 1, -5deg);
+        transform: rotate3d(0, 0, 1, -5deg);
+    }
+
+    100% {
+        -webkit-transform: rotate3d(0, 0, 1, 0deg);
+        transform: rotate3d(0, 0, 1, 0deg);
+    }
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: ptr(110px);
+    line-height: ptr(110px);
+    font-size: ptr(40px);
+    color: #ffd5ef;
+    background: url("../img/MS_Nav_02.png") no-repeat;
+    background-size: 100% ptr(110px);
+    p.backStore {
+        width: ptr(150px);
+        padding-left: ptr(50px);
+        background: url("../img/MS_icon_back.png") ptr(20px) center no-repeat;
+        background-size: ptr(19px) ptr(34px);
+    }
+}
+
+section {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    background: linear-gradient(-45deg,#010056 0,#c5017f 85%);
+    ul.scrollWrap {
+        margin-top: ptr(110px);
+        overflow-y: scroll;
+        padding: ptr(22px) 0 0 ptr(11px);
+        .item {
+            position: relative;
+            display: inline-block;
+            width: ptr(160px);
+            height: ptr(160px);
+            margin: ptr(22px);
+            border-radius: ptr(40px);
+            background: url("../img/MS_icon_asset_01.png") no-repeat;
+            background-size: 100% 100%;
+            overflow: hidden;
+            i {
+                position: relative;
+                z-index: 3;
+                float: left;
+                width: 100%;
+                height: 100%;
+                font-style: normal;
+                font-size: ptr(40px);
+                color: #fff;
+                text-align: center;
+                line-height: ptr(160px);
+            }
+            &:nth-of-type(1) {
+                -webkit-transform-origin: top center;
+                transform-origin: top center;
+                -webkit-animation-name: swing;
+                animation-name: swing;
+                animation-duration: 0.5s;
+                -webkit-animation-duration: 0.5s;
+                animation-delay: 0.3s;
+                -webkit-animation-delay: 0.3s;
+            }
+            span.download {
+                position: absolute;
+                right: ptr(20px);
+                bottom: ptr(20px);
+                z-index: 3;
+                display: block;
+                width: ptr(31px);
+                height: ptr(31px);
+                border-radius: 100%;
+                background: url("../img/MS_icon_download.png") center center no-repeat;
+                background-size: ptr(31px) ptr(31px);
+                &.loading {
+                    background: url("../img/MS_icon_loading.png") center center no-repeat;
+                    background-size: ptr(31px) ptr(31px);
+                }
+            }
+            img {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: ptr(160px);
+                height: ptr(160px);
+                border: none;
+                outline: none;
+                &.border {
+                    z-index: 2;
+                }
+                &.magic {
+                    width: ptr(140px);
+                    height: ptr(140px);
+                    margin: ptr(10px) 0 0 ptr(10px);
+                }
+            }
+        }
+
+    }
+    aside {
+        position: relative;
+        margin-bottom: ptr(20px);
+        width: 100%;
+        height: ptr(50px);
+        text-align: center;
+        line-height: ptr(50px);
+        font-size: ptr(30px);
+        color: #ffd5ef;
+        opacity: 0;
+    }
+}

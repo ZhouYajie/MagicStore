@@ -1,0 +1,184 @@
+@charset 'utf-8';
+@import '_reset.css';
+
+@function ptr($px, $base: 64px) {
+    @if (unitless($px)) {
+        @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+        @return px2em($px + 0); // That may fail. 
+    }
+    @else if (unit($px) == rem) {
+        @return $px;
+    }
+    @return ($px / $base) * 1rem;
+}
+
+#bg {
+    position: fixed;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/MS_bg_00.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+article {
+    width: 100%;
+    height: 100%;
+    header {
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        height: ptr(110px);
+        font-size: ptr(40px);
+        color: #000;
+        background: #eee;
+        letter-spacing: ptr(4px);
+        text-indent: -99999px;
+        background: url("../img/MS_Nav.png") no-repeat;
+        background-size: 100% ptr(110px);
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%);
+            z-index: 10;
+            width: ptr(191px);
+            height: ptr(52px);
+        }
+    }
+
+    div.swiper-container.banner {
+        position: absolute;
+        top: ptr(110px);
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: ptr(260px);
+        overflow: hidden;
+        div.swiper-wrapper {
+            width: 100%;
+            height: ptr(260px);
+            img {
+                float: left;
+                width: 100%;
+                height: ptr(260px);
+            }
+        }
+    }
+    section {
+        position: absolute;
+        z-index: 3;
+        top: ptr(370px);
+        left: 0;
+        width: 100%;
+        height: 100%;
+        #loading {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%,-25%);
+            -webkit-transform: translate(-50%,-20%);
+            color: #000;
+            font-size: ptr(26px);
+            letter-spacing: 2px;
+            .loadItem {
+                float: left;
+                width: ptr(10px);
+                height: ptr(40px);
+                background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(197, 1, 127, 1)), to(rgba(1, 0, 86, 1)));
+                margin: ptr(5px);
+            }
+        }
+        div.classify {
+            position: relative;
+            opacity: 0;
+            width: 100%;
+            height: ptr(280px);
+            background: -webkit-gradient(linear, 0 0, 80% 100% , from(#aa077e), to(#460441));
+            background-size: cover;
+            overflow: hidden;
+            margin-bottom: ptr(10px);
+            p {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: ptr(62px);
+                line-height: ptr(95px);
+                padding-left: ptr(20px);
+                font-size: ptr(34px);
+                color: #ffd5ef;
+                overflow: hidden;
+                i {
+                    font-style: normal;
+                }
+                span.showAll {
+                    position: absolute;
+                    right: ptr(20px);
+                    font-size: ptr(24px);
+                    color: #c066a0;
+                    width: ptr(136px);
+                    background: url("../img/MS_icon_more.png") ptr(105px) ptr(37.5px) no-repeat;
+                    background-size: ptr(10px) ptr(17px);
+                    u {
+                        right: 0;
+                    }
+                }
+            }
+            .swiper-wrapper {
+                position: absolute;
+                top: ptr(62px);
+                left: 0;
+                height: ptr(218px);
+                overflow-x: scroll;
+                overflow-y: hidden;
+                white-space: nowrap;
+                .swiper-slide {
+                    position: relative;
+                    display: inline-block;
+                    width: ptr(160px);
+                    height: ptr(160px);
+                    margin: ptr(29px) ptr(13px);
+                    overflow: hidden;
+                    border-radius: ptr(40px);
+                    background: url("../img/MS_icon_asset_01.png") no-repeat;
+                    background-size: 100% 100%;
+                    img {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: ptr(160px);
+                        height: ptr(160px);
+                        border: none;
+                        outline: none;
+                        &.border {
+                            z-index: 2;
+                        }
+                        &.magic {
+                            width: ptr(140px);
+                            height: ptr(140px);
+                            margin: ptr(10px) 0 0 ptr(10px);
+                        }
+                    }
+                    span.download {
+                        position: absolute;
+                        z-index: 3;
+                        right: ptr(20px);
+                        bottom: ptr(20px);
+                        display: block;
+                        width: ptr(31px);
+                        height: ptr(31px);
+                        border-radius: 100%;
+                        background: url("../img/MS_icon_download.png") center center no-repeat;
+                        background-size: ptr(31px) ptr(31px);
+                        &.loading {
+                            background: url("../img/MS_icon_loading.png") center center no-repeat;
+                            background-size: ptr(31px) ptr(31px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
