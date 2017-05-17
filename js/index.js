@@ -86,7 +86,7 @@ var loadAndFetchSpine = {
 				try {
 					for(var j = 0; j < this.spineInfoArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
-						if(item[i].spines[k].id == this.spineInfoArr[j].jsonContent.id) {
+						if(item[i].spines[k].id == this.spineInfoArr[j].id) {
 							spineDownCon = '</div>';
 							break;
 						}
@@ -142,7 +142,7 @@ var loadAndFetchSpine = {
 			var x = $(this).parents('.classify').index(),
 				y = $(this).index();
 			//js调安卓
-			window.MStore.spineWillDownload($(this).data('source'), JSON.stringify(that.spineItem[x].spines[y]));
+			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(that.spineItem[x].spines[y]));
 
 			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
 

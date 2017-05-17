@@ -22,7 +22,6 @@ var loadAndFetchSpine = {
 			url: "https://mapi.magic-store.cn/mstore/spine/category/" + this.itemInfo.itemId,
 			success: function(res) {
 				if(res.code == 200) {
-					console.log(res)
 					try {
 						window.MStore.spineDomains(res.pkgBucket, res.imgBucket, res.endpoint);
 					} catch(e) {
@@ -47,7 +46,7 @@ var loadAndFetchSpine = {
 			content = '<img class="border" src="img/MS_icon_asset_02.png" alt="" />' +
 							'<span class="download"></span>';
 			for(var k = 0; k < this.spineInfoArr.length; k++) {
-				if(this.spineInfoArr[k].jsonContent.id == item.list[i].id) {
+				if(this.spineInfoArr[k].id == item.list[i].id) {
 					content = '<img class="border" src="img/MS_icon_asset_02.png" alt="" />';
 					break; 
 				}
@@ -109,7 +108,7 @@ var loadAndFetchSpine = {
 				repeat: -1
 			});
 			
-			window.MStore.spineWillDownload($(this).data('source'));
+			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(that.spineItem.list[$(this).index()-1]));
 //			that.spineDidDownload($(this).data('source'), 'urlurlurl');
 		})
 	},
