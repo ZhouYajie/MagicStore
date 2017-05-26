@@ -100,15 +100,18 @@ var loadAndFetchSpine = {
 		});
 		//下载
 		$('section .scrollWrap').on('click', '.item', function() {
-			var download = $(this).find('.download');
+			var download = $(this).find('.download'),
+				spineInfo = that.spineItem.list[$(this).index()-1],
+				spineCover = $(this).find('.magic')[0].src;
+			spineInfo.cover = spineCover;
 			download.addClass('loading');
 			TweenMax.to(download, .9, {
 				rotation: 360,
 				ease: Linear.easeOut,
 				repeat: -1
 			});
-			
-			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(that.spineItem.list[$(this).index()-1]));
+			console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
+			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 //			that.spineDidDownload($(this).data('source'), 'urlurlurl');
 		})
 	},

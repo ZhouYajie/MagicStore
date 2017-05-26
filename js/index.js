@@ -140,9 +140,13 @@ var loadAndFetchSpine = {
 				repeat: -1
 			});
 			var x = $(this).parents('.classify').index(),
-				y = $(this).index();
+				y = $(this).index(),
+				spineInfo = that.spineItem[x].spines[y],
+				spineCover = $(this).find('.magic')[0].src;
+			spineInfo.cover = spineCover;
+			console.log('indexDown spineInfo: ' + JSON.stringify(spineInfo));
 			//js调安卓
-			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(that.spineItem[x].spines[y]));
+			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 
 			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
 
