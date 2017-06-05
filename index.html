@@ -6,7 +6,6 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
 		<title>MagicStore</title>
 
-		<link rel="stylesheet" href="css/swiper-3.4.1.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/index.css" />
 		<script src="js/flexible_css.debug.js"></script>
 		<script src="js/flexible.debug.js"></script>
@@ -14,11 +13,15 @@
 	</head>
 
 	<body>
+		<div id="bg"></div>
 		<article> 
 			<header>
 				魔法商店
 			</header>
-			<section></section>
+			<div id="loading"></div>
+			<section>
+
+			</section>
 
 		</article>
 
@@ -26,7 +29,7 @@
 		<script src="js/swiper-3.4.1.min.js"></script>
 		<script src="js/TweenMax.min.js"></script>
 		<script type="text/javascript" async defer>
-//			window.MStore.fetchSpineLoadedList();
+			window.MStore.fetchSpineLoadedList();
 		</script>
 		<script src="js/index.js"></script>
 	</body>

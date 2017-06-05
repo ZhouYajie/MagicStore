@@ -3,9 +3,8 @@ var loadAndFetchSpine = {
 	init: function() {
 		this.spineItem;
 		this.spineInfoArr = [];
-		$('<div id="loading"></div>').prependTo($("section"));
 		for(var i = 0; i < 7; i++) {
-			$('<div class="loadItem"></div>').prependTo($("section").find('#loading'));
+			$('<div class="loadItem"></div>').prependTo($("article #loading"));
 		}
 
 		this.loadingAnimate();
@@ -14,7 +13,7 @@ var loadAndFetchSpine = {
 		this.downLoadSpine();
 	},
 	loadingAnimate: function() {
-		var load = $('section').find(' #loading .loadItem');
+		var load = $('article #loading').find('.loadItem');
 		TweenMax.staggerTo(load, .2, { scaleY: 1.6, repeat: -1, yoyo: true, ease: Linear.easeInOut }, 0.1);
 	},
 	loadedAnimate: function() {
@@ -61,7 +60,7 @@ var loadAndFetchSpine = {
 		for(var i = 0; i < item.length; i++) {
 			var spineItemsWrap = $('<div class="classify swiper-container"></div>');
 			spineItemsWrap.attr('data-categoryid', item[i].id);
-			var spineItemsWrapCon = '<p><i>' + item[i].name + '</i><span class="showAll">显示更多</span></p> <div class="swiper-wrapper">'
+			var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll">显示更多</span></p> <div class="swiper-wrapper">'
 
 			var spineLength = 5;
 			if(item[i].spines.length <= spineLength) {
@@ -69,8 +68,8 @@ var loadAndFetchSpine = {
 			}
 
 			for(var k = 0; k < spineLength; k++) {
-				spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">'
-													//+ '<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" />'
+				spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
+					'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" />'
 				try {
 					for(var j = 0; j < this.spineInfoArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
@@ -88,7 +87,7 @@ var loadAndFetchSpine = {
 
 				spineItemsWrapCon += spineDownCon;
 			}
-			spineItemsWrapCon += '</div>';
+			spineItemsWrapCon += '<i>M</i></div><p class="btm"></p>';
 			spineItemsWrap.html(spineItemsWrapCon);
 			$('section').append(spineItemsWrap);
 		}
@@ -158,14 +157,14 @@ var loadAndFetchSpine = {
 				});
 			}, 500);
 
-//			var itemArr = [];
-//			var spineInfo = {
-//				id: downSpine.data('id'),
-//				source: source,
-//				url: url
-//			}
-//			this.spineInfoArr.push(spineInfo);
-//			localStorage.setItem("spineInfo", JSON.stringify(this.spineInfoArr));
+			//			var itemArr = [];
+			//			var spineInfo = {
+			//				id: downSpine.data('id'),
+			//				source: source,
+			//				url: url
+			//			}
+			//			this.spineInfoArr.push(spineInfo);
+			//			localStorage.setItem("spineInfo", JSON.stringify(this.spineInfoArr));
 		}
 	}
 };

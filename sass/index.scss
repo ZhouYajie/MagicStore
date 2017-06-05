@@ -5,13 +5,19 @@
     @if (unitless($px)) {
         @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
         @return ptr($px + 0); // That may fail.
-    }
-    @else if (unit($px) == rem) {
+    } @else if (unit($px) == rem) {
         @return $px;
     }
     @return ($px / $base) * 1rem;
 }
 
+#bg {
+    position: fixed;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    background: #191919;
+}
 
 article {
     width: 100%;
@@ -21,58 +27,63 @@ article {
         position: fixed;
         z-index: 10;
         width: 100%;
-        height: ptr(70px);
-        line-height: ptr(72px);
-        font-size: 16px;
-        font-family:"Microsoft Yahei";//Heiti SC
+        height: ptr(96px);
+        line-height: ptr(98px);
+        font-size: 18px;
+        font-family: "Microsoft Yahei"; //Heiti SC
         color: #fefefe;
-        background: #352f21 url('../img/MS_icon_back.png') ptr(48px) center no-repeat;
-        background-size: ptr(19px) ptr(33px);
+        background: #352f21 url("../img/MS_icon_back.png") ptr(48px) center no-repeat;
+        background-size: ptr(19px) ptr(30px);
         padding-left: ptr(86px);
         .title {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
-            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
             z-index: 10;
             width: ptr(191px);
             height: ptr(52px);
         }
     }
 
+    #loading {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        height: ptr(40px);
+        margin-left: -25%;
+        transform: translate(-50%, -25%);
+        -webkit-transform: translate(25%, -80%);
+        color: #000;
+        font-size: ptr(26px);
+        letter-spacing: 2px;
+        .loadItem {
+            float: left;
+            width: ptr(10px);
+            height: ptr(40px);
+            background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(112, 110, 106, 1)), to(rgba(39, 41, 46, 1)));
+            margin: ptr(5px);
+        }
+    }
 
     section {
         position: absolute;
-        top: ptr(70px);
+        top: ptr(96px);
         left: 0;
         width: 100%;
-        height: 100%;
-        #loading {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%,-25%);
-            -webkit-transform: translate(-50%,-20%);
-            color: #000;
-            font-size: ptr(26px);
-            letter-spacing: 2px;
-            .loadItem {
-                float: left;
-                width: ptr(10px);
-                height: ptr(40px);
-                background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(197, 1, 127, 1)), to(rgba(1, 0, 86, 1)));
-                margin: ptr(5px);
-            }
-        }
+        padding-bottom: ptr(28px);
         div.classify {
             position: relative;
             opacity: 0;
-            height: ptr(270px);
-            padding: ptr(51px) ptr(35px) 0 ptr(33px);
+            height: ptr(321px);
             overflow: hidden;
             margin-bottom: ptr(10px);
-            p {
+            p.spineTitle {
+                position: absolute;
+                top: ptr(51px);
+                width: 100%;
                 height: ptr(34px);
                 line-height: ptr(34px);
                 font-size: 16px;
@@ -80,11 +91,14 @@ article {
                 overflow: hidden;
                 i {
                     font-style: normal;
+                    padding-left: ptr(33px);
                 }
                 span.showAll {
-                    float: right;
+                    position: absolute;
+                    right: ptr(35px);
                     font-size: 12px;
-                    width: ptr(88px);
+                    display: inline-block;
+                    padding-right: ptr(15px);
                     color: #ccc;
                     background: url("../img/MS_icon_more.png") right center no-repeat;
                     background-size: ptr(10px) ptr(17px);
@@ -95,45 +109,46 @@ article {
             }
             .swiper-wrapper {
                 position: absolute;
-                top: ptr(136px);
-                left: ptr(20px);
+                z-index: 1;
+                top: ptr(100px);
+                width: 100%;
+                padding-top: ptr(36px);
                 height: ptr(184px);
                 overflow-x: scroll;
-                overflow-y: hidden;
                 white-space: nowrap;
-                border-bottom: 2px solid #434343;
+                display: flex;
+                box-sizing: content-box;
+                transition-property: transform;
+                transform: translate3d(0, 0, 0);
                 .swiper-slide {
-                    position: relative;
-                    display: inline-block;
+                    float: right;
+                    flex-shrink: 0;
                     width: ptr(132px);
                     height: ptr(132px);
-                    margin-right: ptr(24px);
-                    overflow: hidden;
-                    border-radius: ptr(40px);
+                    margin-right: ptr(20px);
                     background: url("../img/MS_icon_asset.png") no-repeat;
                     background-size: 100% 100%;
-                    img {
+                    &:nth-of-type(1) {
+                        margin-left: ptr(33px);
+                    }
+                    &:nth-last-of-type(1) {
+                        margin-right: ptr(27px);
+                    }
+                    img.magic {
                         position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: ptr(160px);
-                        height: ptr(160px);
+                        left: ptr(13px);
+                        top: ptr(13px);
+                        width: ptr(106px);
+                        height: ptr(106px);
                         border: none;
                         outline: none;
-                        &.border {
-                            z-index: 2;
-                        }
-                        &.magic {
-                            width: ptr(140px);
-                            height: ptr(140px);
-                            margin: ptr(10px) 0 0 ptr(10px);
-                        }
+                        border-radius: ptr(30px);
                     }
                     span.download {
                         position: absolute;
                         z-index: 3;
-                        right: ptr(20px);
-                        bottom: ptr(20px);
+                        right: ptr(3px);
+                        bottom: ptr(4px);
                         display: block;
                         width: ptr(31px);
                         height: ptr(31px);
@@ -146,6 +161,19 @@ article {
                         }
                     }
                 }
+                i {
+                    float: right;
+                    width: ptr(35px);
+                    color: rgba(25, 25, 25, 0);
+                }
+            }
+            p.btm {
+                position: absolute;
+                bottom: 0;
+                left: ptr(33px);
+                width: 100%;
+                height: 2px;
+                background: #434343;
             }
         }
     }
