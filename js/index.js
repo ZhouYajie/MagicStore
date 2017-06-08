@@ -13,6 +13,7 @@ var loadAndFetchSpine = {
 		this.downLoadSpine();
 	},
 	loadingAnimate: function() {
+		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});
 		var load = $('article #loading').find('.loadItem');
 		TweenMax.staggerTo(load, .2, { scaleY: 1.6, repeat: -1, yoyo: true, ease: Linear.easeInOut }, 0.1);
 	},
@@ -69,7 +70,7 @@ var loadAndFetchSpine = {
 
 			for(var k = 0; k < spineLength; k++) {
 				spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
-					'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" />'
+					'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" onerror="this.src=`../img/MS_icon.png`" />'
 				try {
 					for(var j = 0; j < this.spineInfoArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';

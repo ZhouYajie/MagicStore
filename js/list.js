@@ -41,6 +41,8 @@ var loadAndFetchSpine = {
     console.log(item)
     var content = '';
     $('header span').html(this.itemInfo.itemName);
+    TweenMax.to( $('header i'), 1, {marginLeft:'0', ease: Bounce.easeOut});
+    TweenMax.to( $('header span'), 4, {opacity: 1, ease: Strong.easeOut});
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
@@ -50,7 +52,7 @@ var loadAndFetchSpine = {
           break;
         }
       }
-      content += '<img class="magic" data-page="' + item.currentPage + '" src="http://' + imgBucket + '.' + endpoint + '/' + item.list[i].cover + '"/>';
+      content += '<img class="magic" data-page="' + item.currentPage + '" src="http://' + imgBucket + '.' + endpoint + '/' + item.list[i].cover + '" onerror="this.src=`../img/MS_icon.png`"/>';
       list.html(content);
       $('ul.scrollWrap').append(list);
 
@@ -59,7 +61,7 @@ var loadAndFetchSpine = {
 
     } else {
       TweenMax.to($('article aside'), 0, {opacity: 0, ease: Strong.easeOut});
-      $('article aside').html('加载完毕');
+      $('article aside').html('已显示全部');
       $('section').off('scroll');
 
     }
