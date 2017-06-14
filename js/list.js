@@ -41,8 +41,8 @@ var loadAndFetchSpine = {
     console.log(item)
     var content = '';
     $('header span').html(this.itemInfo.itemName);
-    TweenMax.to( $('header i'), 1, {marginLeft:'0', ease: Bounce.easeOut});
-    TweenMax.to( $('header span'), 4, {opacity: 1, ease: Strong.easeOut});
+    TweenMax.to( $('header i'), .7, {marginLeft:'0', ease: Bounce.easeOut});
+    TweenMax.to( $('header span'), 1, {opacity: 1, ease: Strong.easeOut});
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
@@ -115,7 +115,7 @@ var loadAndFetchSpine = {
     $('section .scrollWrap').on('click', '.item', function () {
       var download = $(this).find('.download'),
         spineInfo = that.spineItem.list[$(this).index() - 1],
-        spineCover = $(this).find('.magic')[0].src;
+        spineCover = $(this).find('.magic').src;
       spineInfo.cover = spineCover;
       download.addClass('loading');
       TweenMax.to(download, .9, {
