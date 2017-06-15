@@ -1,5 +1,8 @@
+
+console.log('language : '+window.location.search.split('?')[1].split('=')[1])
 var loadAndFetchSpine = {
   init: function () {
+    this.language = window.location.search.split('?')[1].split('=')[1];
     this.itemInfo = JSON.parse(localStorage.getItem("itemInfo"));
     this.spineLoadedArr = [];
     this.spinesInfoArr = [];
@@ -8,6 +11,7 @@ var loadAndFetchSpine = {
 
     this.fetchItemList();
     this.backAndDown();
+
   },
   fetchItemList: function () {
     var that = this;
@@ -18,7 +22,8 @@ var loadAndFetchSpine = {
         page: this.itemListPage,
         pageSize: 29,
         sortField: "id",
-        sortOrder: "desc"
+        sortOrder: "desc",
+        Ina: this.language
       },
       url: "https://mapi.magic-store.cn/mstore/spine/category/" + this.itemInfo.itemId,
       success: function (res) {
@@ -151,15 +156,6 @@ var loadAndFetchSpine = {
           }
         });
       }, 500);
-
-//			var itemArr = [];   
-//			var spineInfo = {
-//				id: downSpine.data('id'),
-//				source: source,
-//				url: url
-//			}
-//			this.spineInfoArr.push(spineInfo);
-//			localStorage.setItem("spineInfo", JSON.stringify(this.spineInfoArr));
     }
 
 

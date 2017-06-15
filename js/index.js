@@ -1,6 +1,13 @@
 //loading
+
 var loadAndFetchSpine = {
 	init: function() {
+		if(window.location.search) {
+			this.language = window.location.search.split('?')[1].split('=')[1];
+		} else {
+			this.language = 'English';
+		}
+		console.log(this.language)
 		this.spineItem;
 		this.spineInfoArr = [];
 		for(var i = 0; i < 7; i++) {
@@ -36,6 +43,9 @@ var loadAndFetchSpine = {
 			type: "GET",
 			async: true,
 			url: "https://mapi.magic-store.cn/mstore/spine/tree/details",
+			data: {
+				Ina: this.language
+			},
 			success: function(res) {
 				console.log(res)
 				if(res.code == 200) {
@@ -107,7 +117,7 @@ var loadAndFetchSpine = {
 	showAllSpine: function() {
 		var that = this;
 		$('section').on('click', '.classify .showAll', function() {
-			window.location = 'list.html';
+			window.location = 'list.html?lan=' + that.language;
 			var itemIndex = $(this).parents('.classify').index();
 			var itemInfo = {
 				itemId: that.spineItem[itemIndex].id,
