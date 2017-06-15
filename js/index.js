@@ -18,6 +18,13 @@ var loadAndFetchSpine = {
 		this.fetchSpineInfo();
 		this.showAllSpine();
 		this.downLoadSpine();
+		this.definedBack();
+	},
+	definedBack: function() {
+		$('header i').click(function() {
+			console.log('index definedBack')
+			window.MStore.definedBack();
+		})
 	},
 	loadingAnimate: function() {
 		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});

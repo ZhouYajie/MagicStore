@@ -31,18 +31,21 @@ article {
         line-height: ptr(98px);
         font-size: 18px;
         font-family: "Microsoft Yahei"; //Heiti SC
+        font-weight: 400;
         color: #fefefe;
         background: #352f21;
-        padding-left: ptr(33px);
-        .title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -webkit-transform: translate(-50%, -50%);
-            z-index: 10;
-            width: ptr(191px);
-            height: ptr(52px);
+        //padding-left: ptr(65px);
+        i {
+            float: left;
+            width: ptr(19px);
+            height: ptr(96px);
+            margin-left: ptr(33px);
+            margin-right: ptr(16px);
+            background: url("../img/MS_icon_back.png") center no-repeat;
+            background-size: ptr(19px) ptr(30px);
+        }
+        span {
+            float: left;
         }
     }
 
