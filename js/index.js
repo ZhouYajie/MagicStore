@@ -9,16 +9,16 @@ var loadAndFetchSpine = {
 		}
 		console.log(this.language)
 		this.spineItem;
-		this.spineInfoArr = [];
+		this.loadedSpineArr = [];
 		for(var i = 0; i < 7; i++) {
 			$('<div class="loadItem"></div>').prependTo($("article #loading"));
 		}
 
+		this.definedBack();
 		this.loadingAnimate();
 		this.fetchSpineInfo();
 		this.showAllSpine();
 		this.downLoadSpine();
-		this.definedBack();
 	},
 	definedBack: function() {
 		$('header i').click(function() {
@@ -41,7 +41,6 @@ var loadAndFetchSpine = {
 					loading.remove();
 				}
 			});
-
 		}, 400);
 	},
 	fetchSpineInfo: function() {
@@ -62,19 +61,16 @@ var loadAndFetchSpine = {
 					} catch(e) {
 						console.log(e.message)
 					}
-					that.item = res.entities;
-					that.imgBucket = res.imgBucket;
-					that.endpoint = res.endpoint;
-					that.createSpineItems(res.entities, res.imgBucket, res.endpoint);
+					that.createDetailSpines(that.spineItem, res.imgBucket, res.endpoint);
 				}
 			}
 		});
 	},
 	spineLoadedList: function(list) {
 		console.log(list);
-		this.spineInfoArr = JSON.parse(list);
+		this.loadedSpineArr = JSON.parse(list);
 	},
-	createSpineItems: function(item, imgBucket, endpoint) {
+	createDetailSpines: function(item, imgBucket, endpoint) {
 		for(var i = 0; i < item.length; i++) {
 			var spineItemsWrap = $('<div class="classify swiper-container"></div>');
 			spineItemsWrap.attr('data-categoryid', item[i].id);
@@ -89,14 +85,14 @@ var loadAndFetchSpine = {
 				spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
 					'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" onerror="this.src=`../img/MS_icon.png`" />'
 				try {
-					for(var j = 0; j < this.spineInfoArr.length; j++) {
+					for(var j = 0; j < this.loadedSpineArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
-						if(item[i].spines[k].id == this.spineInfoArr[j].id) {
+						if(item[i].spines[k].id == this.loadedSpineArr[j].id) {
 							spineDownCon = '</div>';
 							break;
 						}
 					}
-					if(this.spineInfoArr.length == 0) {
+					if(this.loadedSpineArr.length == 0) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
 					}
 				} catch(e) {
@@ -154,7 +150,6 @@ var loadAndFetchSpine = {
 			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 
 			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
-
 		});
 	},
 	spineDidDownload: function(source, url) {
@@ -181,8 +176,8 @@ var loadAndFetchSpine = {
 			//				source: source,
 			//				url: url
 			//			}
-			//			this.spineInfoArr.push(spineInfo);
-			//			localStorage.setItem("spineInfo", JSON.stringify(this.spineInfoArr));
+			//			this.loadedSpineArr.push(spineInfo);
+			//			localStorage.setItem("spineInfo", JSON.stringify(this.loadedSpineArr));
 		}
 	}
 };

@@ -4,8 +4,8 @@ var loadAndFetchSpine = {
   init: function () {
     this.language = window.location.search.split('?')[1].split('=')[1];
     this.itemInfo = JSON.parse(localStorage.getItem("itemInfo"));
-    this.spineLoadedArr = [];
-    this.spinesInfoArr = [];
+    this.loadedSpineArr = [];
+    this.spinesInfoArr = []; //记录分页里所有的spine
     this.itemListPage = 1;
     this.spineItem;
 
@@ -36,14 +36,14 @@ var loadAndFetchSpine = {
           that.spineItem = res.entities[0];
           that.spinesInfoArr = that.spinesInfoArr.concat(that.spineItem.list);
           console.log(that.spinesInfoArr)
-          that.createItemList(res.entities[0], res.imgBucket, res.endpoint);
+          that.createItemList(that.spineItem, res.imgBucket, res.endpoint);
         }
       }
     });
   },
   spineLoadedList: function (list) {
     //console.log(list);
-    this.spineLoadedArr = JSON.parse(list);
+    this.loadedSpineArr = JSON.parse(list);
   },
   createItemList: function (item, imgBucket, endpoint) {
     //console.log(item)
@@ -51,11 +51,12 @@ var loadAndFetchSpine = {
     $('header span').html(this.itemInfo.itemName);
     TweenMax.to( $('header i'), .7, {marginLeft:'0', ease: Bounce.easeOut});
     TweenMax.to( $('header span'), 1, {opacity: 1, ease: Strong.easeOut});
+
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
-      for (var k = 0; k < this.spineLoadedArr.length; k++) {
-        if (this.spineLoadedArr[k].id == item.list[i].id) {
+      for (var k = 0; k < this.loadedSpineArr.length; k++) {
+        if (this.loadedSpineArr[k].id == item.list[i].id) {
           content = '';
           break;
         }
@@ -69,7 +70,7 @@ var loadAndFetchSpine = {
 
     } else {
       TweenMax.to($('article aside'), 0, {opacity: 0, ease: Strong.easeOut});
-      $('article aside').html('已显示全部');
+      $('article aside').html('');
       $('section').off('scroll');
 
     }
