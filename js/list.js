@@ -66,14 +66,6 @@ var loadAndFetchSpine = {
       $('ul.scrollWrap').append(list);
 
     }
-    if (this.spineItem.hasNextPage && !this.spineItem.isLastPage) {
-
-    } else {
-      TweenMax.to($('article aside'), 0, {opacity: 0, ease: Strong.easeOut});
-      $('article aside').html('');
-      $('section').off('scroll');
-
-    }
     this.loadMore();
     this.spineAnimate(item.currentPage);
   },
@@ -82,14 +74,7 @@ var loadAndFetchSpine = {
     TweenMax.staggerFrom(spineItemArr, 1.5, {
       scale: 0.7,
       opacity: 0,
-      ease: Elastic.easeOut,
-      onComplete: function () {
-        TweenMax.to($('article aside'), 1, {
-          delay: 1, opacity: 1, ease: Strong.easeOut, onComplete: function () {
-            TweenMax.to($('article aside'), 1, {opacity: 0, ease: Strong.easeOut})
-          }
-        });
-      }
+      ease: Elastic.easeOut
     }, 0.1);
 
     var magicSpineArr = spineItemArr.find('.magic[data-page="' + index + '"]');
@@ -109,8 +94,11 @@ var loadAndFetchSpine = {
           setTimeout(function () {
             that.fetchItemList();
           }, 300);
-          $('article aside').html('正在加载...');
-          TweenMax.to($('article aside'), 1, {opacity: 1, ease: Strong.easeOut});
+          TweenMax.to($('article aside'), .5, {opacity: 1, ease: Strong.easeOut});
+          $('section').off('scroll');
+        }else {
+          TweenMax.to($('article aside'), 1, {opacity: 0, ease: Strong.easeOut});
+          $('article aside').html('');
           $('section').off('scroll');
         }
       }

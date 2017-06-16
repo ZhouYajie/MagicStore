@@ -57,7 +57,7 @@ article {
             bottom: ptr(50px);
             width: 100%;
             height: ptr(54px);
-            background: url("../img/MS_icon_line.png") center no-repeat;
+            background: url("../img/MS_icon_line.png") center center no-repeat;
             background-size: ptr(432px) ptr(54px);
         }
         ul.scrollWrap {
@@ -126,7 +126,6 @@ article {
                     border-radius: ptr(30px);
                 }
             }
-
         }
     }
     aside {
@@ -140,6 +139,11 @@ article {
         font-size: 14px;
         color: #ccc;
         opacity: 0;
+        background-image: url('../img/loading.gif');
+        -webkit-background-size: ptr(60px) ptr(32px);
+        background-size: ptr(60px) ptr(32px);
+        background-repeat: no-repeat;
+        background-position: ptr(299px) center;
     }
 }
 
