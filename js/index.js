@@ -5,7 +5,7 @@ var loadAndFetchSpine = {
 		if(window.location.search) {
 			this.language = window.location.search.split('?')[1].split('=')[1];
 		} else {
-			this.language = 'English';
+			this.language = 'en';
 		}
 		console.log(this.language)
 		this.spineItem;
@@ -15,6 +15,7 @@ var loadAndFetchSpine = {
 		}
 
 		this.definedBack();
+		this.lanTitle();
 		this.loadingAnimate();
 		this.fetchSpineInfo();
 		this.showAllSpine();
@@ -25,6 +26,17 @@ var loadAndFetchSpine = {
 			console.log('index definedBack')
 			window.MStore.definedBack();
 		})
+	},
+	//多语言 title
+	lanTitle: function() {
+		switch (this.language) {
+			case 'en':
+				$('header span').html('Magic Store');
+				break;
+			case 'zh':
+				$('header span').html('魔法商店');
+				break;
+		}
 	},
 	loadingAnimate: function() {
 		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});
@@ -50,7 +62,8 @@ var loadAndFetchSpine = {
 			async: true,
 			url: "https://mapi.magic-store.cn/mstore/spine/tree/details",
 			data: {
-				Ina: this.language
+				lan: this.language,
+				limit: 50
 			},
 			success: function(res) {
 				console.log(res)
@@ -74,16 +87,22 @@ var loadAndFetchSpine = {
 		for(var i = 0; i < item.length; i++) {
 			var spineItemsWrap = $('<div class="classify swiper-container"></div>');
 			spineItemsWrap.attr('data-categoryid', item[i].id);
-			var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll">显示更多</span></p> <div class="swiper-wrapper">'
+			var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll"></span></p> <div class="swiper-wrapper">'
 
-			var spineLength = 5;
+			var spineLength = 10;
 			if(item[i].spines.length <= spineLength) {
 				spineLength = item[i].spines.length;
 			}
 
-			for(var k = 0; k < spineLength; k++) {
-				spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
-					'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" onerror="this.src=`../img/MS_icon.png`" />'
+			for(var k = 0; k < item[i].spines.length; k++) {
+				if(k < 4) {
+					spineItemsWrapCon += '<div class="swiper-slide TMspine" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
+						'<img class="magic TMmagic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" onerror="this.src=`../img/MS_icon.png`" />'
+				}else {
+					spineItemsWrapCon += '<div class="swiper-slide" data-source="' + item[i].spines[k].source + '" data-id="' + item[i].spines[k].id + '">' +
+						'<img class="magic" src="http://' + imgBucket + '.' + endpoint + '/' + item[i].spines[k].cover + '" onerror="this.src=`../img/MS_icon.png`" />'
+				}
+
 				try {
 					for(var j = 0; j < this.loadedSpineArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
@@ -111,10 +130,11 @@ var loadAndFetchSpine = {
 		var classifyArr = $('section .classify');
 		TweenMax.staggerTo(classifyArr, 1, { opacity: 1, ease: Linear.easeInOut }, 0.3);
 
-		var spineWrapArr = $('section .swiper-slide');
+		//初始页面每个分类里前四个spine动画
+		var spineWrapArr = $('section .swiper-slide.TMspine');
 		TweenMax.staggerFrom(spineWrapArr, 1.5, { scale: 0.7, opacity: 0, ease: Elastic.easeOut }, 0.1);
 
-		var magicSpineArr = $('section .classify').find('.magic');
+		var magicSpineArr = $('section .classify').find('.magic.TMmagic');
 		TweenMax.staggerFrom(magicSpineArr, 2, { scale: 2, opacity: 0, ease: Strong.easeOut }, 0.1);
 	},
 	showAllSpine: function() {

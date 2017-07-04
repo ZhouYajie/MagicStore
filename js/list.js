@@ -23,7 +23,7 @@ var loadAndFetchSpine = {
         pageSize: 29,
         sortField: "id",
         sortOrder: "desc",
-        Ina: this.language
+        lan: this.language
       },
       url: "https://mapi.magic-store.cn/mstore/spine/category/" + this.itemInfo.itemId,
       success: function (res) {
@@ -108,7 +108,7 @@ var loadAndFetchSpine = {
     var that = this;
     //返回
     $('.backStore').click(function () {
-      window.location = 'index.html';
+      window.location = 'index.html?lan=' + that.language;
     });
     //下载
     $('section .scrollWrap').on('click', '.item', function () {
