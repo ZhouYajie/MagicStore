@@ -84,10 +84,10 @@ article {
             margin-bottom: ptr(10px);
             p.spineTitle {
                 position: absolute;
-                top: ptr(38px);
+                top: ptr(18px);
                 width: 100%;
-                height: ptr(60px);
-                line-height: ptr(60px);
+                height: ptr(100px);
+                line-height: ptr(100px);
                 font-size: 16px;
                 color: #eae7e2;
                 overflow: hidden;
@@ -97,14 +97,15 @@ article {
                 }
                 span.showAll {
                     position: absolute;
-                    right: ptr(35px);
+                    right: 0;
                     font-size: 12px;
                     display: inline-block;
-                    width: ptr(60px);
-                    height: ptr(60px);
-                    line-height: ptr(60px);
+                    width: ptr(200px);
+                    height: ptr(100px);
+                    line-height: ptr(100px);
                     color: #ccc;
                     background: url("../img/MS_icon_more.png") right center no-repeat;
+                    background-position: ptr(135px) center;
                     background-size: ptr(30px) ptr(30px);
                     u {
                         right: 0;

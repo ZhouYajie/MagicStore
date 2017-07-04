@@ -107,7 +107,7 @@ var loadAndFetchSpine = {
   backAndDown: function () {
     var that = this;
     //返回
-    $('.backStore').click(function () {
+    $('header').click(function () {
       window.location = 'index.html?lan=' + that.language;
     });
     //下载

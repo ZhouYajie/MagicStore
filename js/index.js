@@ -22,7 +22,7 @@ var loadAndFetchSpine = {
 		this.downLoadSpine();
 	},
 	definedBack: function() {
-		$('header i').click(function() {
+		$('header').click(function() {
 			console.log('index definedBack')
 			window.MStore.definedBack();
 		})
