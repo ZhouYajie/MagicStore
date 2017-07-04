@@ -156,14 +156,14 @@ article {
                         right: ptr(3px);
                         bottom: ptr(4px);
                         display: block;
-                        width: ptr(31px);
-                        height: ptr(31px);
+                        width: ptr(32px);
+                        height: ptr(32px);
                         border-radius: 100%;
                         background: url("../img/MS_icon_download.png") center center no-repeat;
-                        background-size: ptr(31px) ptr(31px);
+                        background-size: ptr(32px) ptr(32px);
                         &.loading {
                             background: url("../img/MS_icon_loading.png") center center no-repeat;
-                            background-size: ptr(31px) ptr(31px);
+                            background-size: ptr(32px) ptr(32px);
                         }
                     }
                 }
