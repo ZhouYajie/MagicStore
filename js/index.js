@@ -33,12 +33,12 @@ var loadAndFetchSpine = {
 		switch (this.language) {
 			case 'en':
 				$('header span').html('Magic Store');
-				TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
 				break;
 			case 'zh':
 				$('header span').html('魔法商店');
 				break;
 		}
+		TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
 	},
 	loadingAnimate: function() {
 		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});
@@ -136,8 +136,8 @@ var loadAndFetchSpine = {
 		var spineWrapArr = $('section .swiper-slide.TMspine');
 		TweenMax.staggerFrom(spineWrapArr, 1.5, { scale: 0.7, opacity: 0, ease: Elastic.easeOut }, 0.1);
 
-		var magicSpineArr = $('section .classify').find('.magic.TMmagic');
-		TweenMax.staggerTo(magicSpineArr, 2, { scale: 1, opacity:1, ease: Strong.easeOutt }, 0.1);
+		//var magicSpineArr = $('section .classify').find('.magic.TMmagic');
+		//TweenMax.staggerTo(magicSpineArr, 2, { scale: 1, opacity:1, ease: Strong.easeOutt }, 0.1);
 
 	},
 	showAllSpine: function() {

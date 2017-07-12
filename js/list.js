@@ -49,8 +49,7 @@ var loadAndFetchSpine = {
     //console.log(item)
     var content = '';
     $('header span').html(this.itemInfo.itemName);
-    TweenMax.to( $('header i'), .7, {marginLeft:'0', ease: Bounce.easeOut});
-    TweenMax.to( $('header span'), 1, {opacity: 1, ease: Strong.easeOut});
+    TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
 
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
@@ -77,8 +76,8 @@ var loadAndFetchSpine = {
       ease: Elastic.easeOut
     }, 0.1);
 
-    var magicSpineArr = spineItemArr.find('.magic[data-page="' + index + '"]');
-    TweenMax.staggerFrom(magicSpineArr, 2, {scale: 2, opacity: 0, ease: Strong.easeOut}, 0.1);
+    //var magicSpineArr = spineItemArr.find('.magic[data-page="' + index + '"]');
+    //TweenMax.staggerFrom(magicSpineArr, 2, {scale: 2, opacity: 0, ease: Strong.easeOut}, 0.1);
   },
   loadMore: function () {
     console.log('loadMore')
