@@ -2,6 +2,7 @@
 
 var loadAndFetchSpine = {
 	init: function() {
+
 		if(window.location.search) {
 			this.language = window.location.search.split('?')[1].split('=')[1];
 		} else {
@@ -10,9 +11,9 @@ var loadAndFetchSpine = {
 		console.log(this.language)
 		this.spineItem;
 		this.loadedSpineArr = [];
-		for(var i = 0; i < 7; i++) {
-			$('<div class="loadItem"></div>').prependTo($("article #loading"));
-		}
+		//for(var i = 0; i < 7; i++) {
+		//	$('<div class="loadItem"></div>').prependTo($("article #loading"));
+		//}
 
 		this.definedBack();
 		this.lanTitle();
@@ -32,6 +33,7 @@ var loadAndFetchSpine = {
 		switch (this.language) {
 			case 'en':
 				$('header span').html('Magic Store');
+				TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
 				break;
 			case 'zh':
 				$('header span').html('魔法商店');
@@ -40,8 +42,8 @@ var loadAndFetchSpine = {
 	},
 	loadingAnimate: function() {
 		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});
-		var load = $('article #loading').find('.loadItem');
-		TweenMax.staggerTo(load, .2, { scaleY: 1.6, repeat: -1, yoyo: true, ease: Linear.easeInOut }, 0.1);
+		//var load = $('article #loading').find('.loadItem');
+		//TweenMax.staggerTo(load, .2, { scaleY: 1.6, repeat: -1, yoyo: true, ease: Linear.easeInOut }, 0.1);
 	},
 	loadedAnimate: function() {
 		this.LoadTimeOut = setTimeout(function() {
@@ -89,7 +91,7 @@ var loadAndFetchSpine = {
 			spineItemsWrap.attr('data-categoryid', item[i].id);
 			var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll"></span></p> <div class="swiper-wrapper">'
 
-			var spineLength = 10;
+			var spineLength = 5;
 			if(item[i].spines.length <= spineLength) {
 				spineLength = item[i].spines.length;
 			}
@@ -135,7 +137,8 @@ var loadAndFetchSpine = {
 		TweenMax.staggerFrom(spineWrapArr, 1.5, { scale: 0.7, opacity: 0, ease: Elastic.easeOut }, 0.1);
 
 		var magicSpineArr = $('section .classify').find('.magic.TMmagic');
-		TweenMax.staggerFrom(magicSpineArr, 2, { scale: 2, opacity: 0, ease: Strong.easeOut }, 0.1);
+		TweenMax.staggerTo(magicSpineArr, 2, { scale: 1, opacity:1, ease: Strong.easeOutt }, 0.1);
+
 	},
 	showAllSpine: function() {
 		var that = this;
