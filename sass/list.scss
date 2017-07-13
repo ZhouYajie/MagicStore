@@ -56,27 +56,18 @@ article {
         position: relative;
         top: 0;
         width: 100%;
-        height: 86%;
+        height: 100%;
         overflow: scroll;
         background: #191919;
-        #btm {
-            position: fixed;
-            bottom: ptr(50px);
-            width: 100%;
-            height: ptr(54px);
-            background: url("../img/MS_icon_line.png") center center no-repeat;
-            background-size: ptr(432px) ptr(54px);
-        }
         ul.scrollWrap {
             pointer-events: none;
-            margin-top: ptr(96px);
             overflow: scroll;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             //justify-content: space-between;
             -webkit-overflow-scrolling: touch;
-            padding: ptr(97px) ptr(30px) 0 ptr(30px);
+            padding: ptr(193px) ptr(30px) ptr(138px) ptr(30px);
             .item {
                 //position: relative;
                 //float: left;
@@ -141,22 +132,42 @@ article {
             }
         }
     }
-    aside {
+
+    footer {
         position: fixed;
+        bottom: 0%;
+        left: 0%;
         z-index: 5;
-        bottom: ptr(80px);
         width: 100%;
-        height: ptr(50px);
-        text-align: center;
-        line-height: ptr(50px);
-        font-size: 14px;
-        color: #ccc;
-        opacity: 0;
-        background-image: url('../img/loading.gif');
-        -webkit-background-size: ptr(60px) ptr(32px);
-        background-size: ptr(60px) ptr(32px);
-        background-repeat: no-repeat;
-        background-position: ptr(299px) center;
+        height: ptr(138px);
+        background: #191919;
+        aside {
+            position: absolute;
+            z-index: 5;
+            bottom: ptr(80px);
+            width: 100%;
+            height: ptr(50px);
+            text-align: center;
+            line-height: ptr(50px);
+            font-size: 14px;
+            color: #ccc;
+            opacity: 0;
+            background-image: url('../img/loading.gif');
+            -webkit-background-size: ptr(60px) ptr(32px);
+            background-size: ptr(60px) ptr(32px);
+            background-repeat: no-repeat;
+            background-position: ptr(299px) center;
+        }
+        #btm {
+            position: absolute;
+            bottom: ptr(50px);
+            z-index: 5;
+            width: 100%;
+            height: ptr(54px);
+            background: url("../img/MS_icon_line.png") center center no-repeat;
+            background-size: ptr(432px) ptr(54px);
+        }
     }
+
 }
 

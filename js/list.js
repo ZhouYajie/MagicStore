@@ -79,7 +79,7 @@ var loadAndFetchSpine = {
       ulHeight = $('section ul').height(),
       itemHeight = $('section ul').find('.item').height();
     $('section').on('scroll', function () {
-      if ($('section').scrollTop() > ulHeight/2) {
+      if ($('section').scrollTop() > ulHeight/2.5) {
         if (that.spineItem.hasNextPage && !that.spineItem.isLastPage) {
           console.log('itemListPage: '+that.itemListPage)
           that.itemListPage++;
