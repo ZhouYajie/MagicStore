@@ -60,16 +60,14 @@ article {
         overflow: scroll;
         background: #191919;
         ul.scrollWrap {
-            pointer-events: none;
             overflow: scroll;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            //justify-content: space-between;
             -webkit-overflow-scrolling: touch;
             padding: ptr(193px) ptr(30px) ptr(138px) ptr(30px);
             .item {
-                //position: relative;
+                position: relative;
                 //float: left;
                 width: ptr(132px);
                 height: ptr(132px);
