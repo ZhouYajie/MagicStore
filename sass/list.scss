@@ -4,7 +4,7 @@
 @function ptr($px, $base: 64px) {
     @if (unitless($px)) {
         @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
-        @return px2em($px + 0); // That may fail. 
+        @return px2em($px + 0); // That may fail.
     }
     @else if (unit($px) == rem) {
         @return $px;
@@ -69,11 +69,16 @@ article {
         }
         ul.scrollWrap {
             margin-top: ptr(96px);
-            overflow-y: scroll;
-            padding: ptr(97px) 0 0 ptr(30px);
+            overflow: auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            //justify-content: space-between;
+            -webkit-overflow-scrolling: touch;
+            padding: ptr(97px) ptr(30px) 0 ptr(30px);
             .item {
-                position: relative;
-                float: left;
+                //position: relative;
+                //float: left;
                 width: ptr(132px);
                 height: ptr(132px);
                 margin-right: ptr(16px);
