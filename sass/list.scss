@@ -68,8 +68,9 @@ article {
             background-size: ptr(432px) ptr(54px);
         }
         ul.scrollWrap {
+            pointer-events: none;
             margin-top: ptr(96px);
-            overflow: auto;
+            overflow: scroll;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;

@@ -1,5 +1,4 @@
 
-console.log('language : '+window.location.search.split('?')[1].split('=')[1])
 var loadAndFetchSpine = {
   init: function () {
     this.language = window.location.search.split('?')[1].split('=')[1];
@@ -42,11 +41,9 @@ var loadAndFetchSpine = {
     });
   },
   spineLoadedList: function (list) {
-    //console.log(list);
     this.loadedSpineArr = JSON.parse(list);
   },
   createItemList: function (item, imgBucket, endpoint) {
-    //console.log(item)
     var content = '';
     $('header span').html(this.itemInfo.itemName);
     TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
@@ -75,12 +72,8 @@ var loadAndFetchSpine = {
       opacity: 0,
       ease: Elastic.easeOut
     }, 0.1);
-
-    //var magicSpineArr = spineItemArr.find('.magic[data-page="' + index + '"]');
-    //TweenMax.staggerFrom(magicSpineArr, 2, {scale: 2, opacity: 0, ease: Strong.easeOut}, 0.1);
   },
   loadMore: function () {
-    console.log('loadMore')
     var that = this,
       asideTop = $('article').find('aside').position().top,
       ulHeight = $('section ul').height(),
