@@ -2,24 +2,27 @@
 
 var loadAndFetchSpine = {
 	init: function() {
+
 		if(window.location.search) {
 			this.language = window.location.search.split('?')[1].split('=')[1];
 		} else {
 			this.language = 'en';
 		}
 		console.log(this.language)
-		this.spineItem;
-		this.loadedSpineArr = [];
-		for(var i = 0; i < 7; i++) {
-			$('<div class="loadItem"></div>').prependTo($("article #loading"));
-		}
 
+		this.spineItem;
+
+		this.loadedSpineArr = [];
+		this.spineStorage = [];
 		this.definedBack();
 		this.lanTitle();
-		this.loadingAnimate();
+
 		this.fetchSpineInfo();
 		this.showAllSpine();
 		this.downLoadSpine();
+
+		//this.spineLoadedList();//debug
+		//this.spineLoadedList('["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"] ');
 	},
 	definedBack: function() {
 		$('header').click(function() {
@@ -37,11 +40,7 @@ var loadAndFetchSpine = {
 				$('header span').html('魔法商店');
 				break;
 		}
-	},
-	loadingAnimate: function() {
-		//TweenMax.to( $('header'), 1, {marginTop:'0', ease: Bounce.easeOut});
-		var load = $('article #loading').find('.loadItem');
-		TweenMax.staggerTo(load, .2, { scaleY: 1.6, repeat: -1, yoyo: true, ease: Linear.easeInOut }, 0.1);
+		TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
 	},
 	loadedAnimate: function() {
 		this.LoadTimeOut = setTimeout(function() {
@@ -80,8 +79,38 @@ var loadAndFetchSpine = {
 		});
 	},
 	spineLoadedList: function(list) {
-		console.log(list);
-		this.loadedSpineArr = JSON.parse(list);
+		//console.log(list);
+		//if(list) {
+		//	this.loadedSpineArr = JSON.parse(list);
+    //
+		//	//本地存储,方便list页调用
+		//	for(var i=0;i<this.loadedSpineArr.length;i++) {
+		//		this.spineStorage.push(this.loadedSpineArr[i].id);
+		//	}
+		//	localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+		//}
+
+
+
+		if(localStorage.getItem("spineLoadedList")) {
+			console.log('localStorage')
+			this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
+		} else {
+			console.log("!localStorage")
+			if(list) {
+				var spineList = JSON.parse(list);
+				for(var i=0;i<spineList.length;i++) {
+					this.spineStorage.push(spineList[i].id);
+				}
+				localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+			}
+
+			//debug
+			//this.spineStorage = ["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"];
+			//localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+		}
+
+		this.loadedSpineArr = this.spineStorage;
 	},
 	createDetailSpines: function(item, imgBucket, endpoint) {
 		for(var i = 0; i < item.length; i++) {
@@ -89,7 +118,7 @@ var loadAndFetchSpine = {
 			spineItemsWrap.attr('data-categoryid', item[i].id);
 			var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll"></span></p> <div class="swiper-wrapper">'
 
-			var spineLength = 10;
+			var spineLength = 5;
 			if(item[i].spines.length <= spineLength) {
 				spineLength = item[i].spines.length;
 			}
@@ -106,7 +135,7 @@ var loadAndFetchSpine = {
 				try {
 					for(var j = 0; j < this.loadedSpineArr.length; j++) {
 						var spineDownCon = '<span class="download"></span>' + '</div>';
-						if(item[i].spines[k].id == this.loadedSpineArr[j].id) {
+						if(item[i].spines[k].id == this.loadedSpineArr[j]) {
 							spineDownCon = '</div>';
 							break;
 						}
@@ -134,8 +163,9 @@ var loadAndFetchSpine = {
 		var spineWrapArr = $('section .swiper-slide.TMspine');
 		TweenMax.staggerFrom(spineWrapArr, 1.5, { scale: 0.7, opacity: 0, ease: Elastic.easeOut }, 0.1);
 
-		var magicSpineArr = $('section .classify').find('.magic.TMmagic');
-		TweenMax.staggerFrom(magicSpineArr, 2, { scale: 2, opacity: 0, ease: Strong.easeOut }, 0.1);
+		//var magicSpineArr = $('section .classify').find('.magic.TMmagic');
+		//TweenMax.staggerTo(magicSpineArr, 2, { scale: 1, opacity:1, ease: Strong.easeOutt }, 0.1);
+
 	},
 	showAllSpine: function() {
 		var that = this;
@@ -153,6 +183,8 @@ var loadAndFetchSpine = {
 	downLoadSpine: function() {
 		var that = this;
 		$('section').on('click', '.classify .swiper-slide', function() {
+
+			//loading
 			var download = $(this).find('.download');
 			download.addClass('loading');
 			TweenMax.to(download, .9, {
@@ -160,16 +192,22 @@ var loadAndFetchSpine = {
 				ease: Linear.easeOut,
 				repeat: -1
 			});
+
+			//spineCover
 			var x = $(this).parents('.classify').index(),
 				y = $(this).index(),
 				spineInfo = that.spineItem[x].spines[y],
 				spineCover = $(this).find('.magic')[0].src;
 			spineInfo.cover = spineCover;
 			console.log('indexDown spineInfo: ' + JSON.stringify(spineInfo));
+
 			//js调安卓
 			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-
 			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
+
+			//当前spine ——> storage
+			that.spineStorage.push($(this).data('id'));
+			localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
 		});
 	},
 	spineDidDownload: function(source, url) {

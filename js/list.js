@@ -1,11 +1,16 @@
 
-console.log('language : '+window.location.search.split('?')[1].split('=')[1])
 var loadAndFetchSpine = {
   init: function () {
     this.language = window.location.search.split('?')[1].split('=')[1];
     this.itemInfo = JSON.parse(localStorage.getItem("itemInfo"));
-    this.loadedSpineArr = [];
-    this.spinesInfoArr = []; //记录分页里所有的spine
+
+    this.spineStorage = [];
+    if(localStorage.getItem("spineLoadedList")) {
+      this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
+    }
+    this.loadedSpineArr = this.spineStorage;
+
+      this.spinesInfoArr = []; //记录分页里所有的spine
     this.itemListPage = 1;
     this.spineItem;
 
@@ -41,22 +46,18 @@ var loadAndFetchSpine = {
       }
     });
   },
-  spineLoadedList: function (list) {
-    //console.log(list);
-    this.loadedSpineArr = JSON.parse(list);
-  },
   createItemList: function (item, imgBucket, endpoint) {
-    //console.log(item)
     var content = '';
     $('header span').html(this.itemInfo.itemName);
-    TweenMax.to( $('header i'), .7, {marginLeft:'0', ease: Bounce.easeOut});
-    TweenMax.to( $('header span'), 1, {opacity: 1, ease: Strong.easeOut});
+    TweenMax.to( $('header'), .5, {opacity: 1, ease: Strong.easeOut});
+
+    console.log(this.loadedSpineArr)
 
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
       for (var k = 0; k < this.loadedSpineArr.length; k++) {
-        if (this.loadedSpineArr[k].id == item.list[i].id) {
+        if (this.loadedSpineArr[k] == item.list[i].id) {
           content = '';
           break;
         }
@@ -76,18 +77,14 @@ var loadAndFetchSpine = {
       opacity: 0,
       ease: Elastic.easeOut
     }, 0.1);
-
-    var magicSpineArr = spineItemArr.find('.magic[data-page="' + index + '"]');
-    TweenMax.staggerFrom(magicSpineArr, 2, {scale: 2, opacity: 0, ease: Strong.easeOut}, 0.1);
   },
   loadMore: function () {
-    console.log('loadMore')
     var that = this,
       asideTop = $('article').find('aside').position().top,
       ulHeight = $('section ul').height(),
       itemHeight = $('section ul').find('.item').height();
     $('section').on('scroll', function () {
-      if ($('section').scrollTop() > ulHeight/2) {
+      if ($('section').scrollTop() > ulHeight/2.5) {
         if (that.spineItem.hasNextPage && !that.spineItem.isLastPage) {
           console.log('itemListPage: '+that.itemListPage)
           that.itemListPage++;
@@ -111,22 +108,26 @@ var loadAndFetchSpine = {
       window.location = 'index.html?lan=' + that.language;
     });
     //下载
-    $('section .scrollWrap').on('click', '.item', function () {
+    $('article section .scrollWrap').on('click', '.item', function () {
+
       var download = $(this).find('.download'),
         spineInfo = that.spinesInfoArr[$(this).index()],
         spineCover = $(this).find('.magic')[0].src;
-      console.log('spineCover : '+spineCover)
       spineInfo.cover = spineCover;
       download.addClass('loading');
+
       TweenMax.to(download, .9, {
         rotation: 360,
         ease: Linear.easeOut,
         repeat: -1
       });
       console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
-      window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 
-			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
+      window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
+      //that.spineDidDownload($(this).data('source'), 'urlurlurl');
+
+      that.spineStorage.push($(this).data('id'));
+      localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
     })
   },
   spineDidDownload: function (source, url) {
