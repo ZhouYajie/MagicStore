@@ -12,8 +12,13 @@ var loadAndFetchSpine = {
 
 		this.spineItem;
 
-		this.loadedSpineArr = [];
 		this.spineStorage = [];
+		if(localStorage.getItem("spineLoadedList")) {
+			this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
+		}
+		this.loadedSpineArr = this.spineStorage;
+
+
 		this.definedBack();
 		this.lanTitle();
 
@@ -90,12 +95,7 @@ var loadAndFetchSpine = {
 		//	localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
 		//}
 
-
-
-		if(localStorage.getItem("spineLoadedList")) {
-			console.log('localStorage')
-			this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
-		} else {
+		if(!localStorage.getItem("spineLoadedList")) {
 			console.log("!localStorage")
 			if(list) {
 				var spineList = JSON.parse(list);
@@ -103,6 +103,7 @@ var loadAndFetchSpine = {
 					this.spineStorage.push(spineList[i].id);
 				}
 				localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+				this.loadedSpineArr = this.spineStorage;
 			}
 
 			//debug
@@ -110,7 +111,7 @@ var loadAndFetchSpine = {
 			//localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
 		}
 
-		this.loadedSpineArr = this.spineStorage;
+
 	},
 	createDetailSpines: function(item, imgBucket, endpoint) {
 		for(var i = 0; i < item.length; i++) {
@@ -227,15 +228,6 @@ var loadAndFetchSpine = {
 					}
 				});
 			}, 500);
-
-			//			var itemArr = [];
-			//			var spineInfo = {
-			//				id: downSpine.data('id'),
-			//				source: source,
-			//				url: url
-			//			}
-			//			this.loadedSpineArr.push(spineInfo);
-			//			localStorage.setItem("spineInfo", JSON.stringify(this.loadedSpineArr));
 		}
 	}
 };
