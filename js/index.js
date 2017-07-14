@@ -84,7 +84,6 @@ var loadAndFetchSpine = {
     });
   },
   spineLoadedList: function (list) {
-
     //console.log("!localStorage")
     if(list) {
       var spineList = JSON.parse(list);
