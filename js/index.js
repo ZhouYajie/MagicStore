@@ -14,14 +14,15 @@ var loadAndFetchSpine = {
 
 		this.loadedSpineArr = [];
 		this.spineStorage = [];
-
 		this.definedBack();
 		this.lanTitle();
+
 		this.fetchSpineInfo();
 		this.showAllSpine();
 		this.downLoadSpine();
 
-		this.spineLoadedList();//debug
+		//this.spineLoadedList();//debug
+		//this.spineLoadedList('["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"] ');
 	},
 	definedBack: function() {
 		$('header').click(function() {
@@ -96,17 +97,17 @@ var loadAndFetchSpine = {
 			this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
 		} else {
 			console.log("!localStorage")
-			//if(list) {
-			//	var spineList = JSON.parse(list);
-			//	for(var i=0;i<spineList.length;i++) {
-			//		this.spineStorage.push(spineList[i].id);
-			//	}
-			//	localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
-			//}
+			if(list) {
+				var spineList = JSON.parse(list);
+				for(var i=0;i<spineList.length;i++) {
+					this.spineStorage.push(spineList[i].id);
+				}
+				localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+			}
 
 			//debug
-			this.spineStorage = ["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"];
-			localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+			//this.spineStorage = ["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"];
+			//localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
 		}
 
 		this.loadedSpineArr = this.spineStorage;
@@ -200,13 +201,13 @@ var loadAndFetchSpine = {
 			spineInfo.cover = spineCover;
 			console.log('indexDown spineInfo: ' + JSON.stringify(spineInfo));
 
+			//js调安卓
+			window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
+			//that.spineDidDownload($(this).data('source'), 'urlurlurl');
+
 			//当前spine ——> storage
 			that.spineStorage.push($(this).data('id'));
 			localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
-
-			//js调安卓
-			//window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-			that.spineDidDownload($(this).data('source'), 'urlurlurl');
 		});
 	},
 	spineDidDownload: function(source, url) {

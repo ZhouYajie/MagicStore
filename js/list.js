@@ -123,11 +123,11 @@ var loadAndFetchSpine = {
       });
       console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
 
+      window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
+      //that.spineDidDownload($(this).data('source'), 'urlurlurl');
+
       that.spineStorage.push($(this).data('id'));
       localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
-      //window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-
-			that.spineDidDownload($(this).data('source'), 'urlurlurl');
     })
   },
   spineDidDownload: function (source, url) {
