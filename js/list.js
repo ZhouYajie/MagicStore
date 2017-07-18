@@ -56,7 +56,7 @@ var loadAndFetchSpine = {
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
-      for (var k = 0; k < this.loadedSpineArr.length; k++) {
+      for (var k = 1; k < this.loadedSpineArr.length; k++) {
         if (this.loadedSpineArr[k] == item.list[i].id) {
           content = '';
           break;
@@ -123,8 +123,8 @@ var loadAndFetchSpine = {
       });
       console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
 
-      window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-      //that.spineDidDownload($(this).data('source'), 'urlurlurl');
+      //window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
+      that.spineDidDownload($(this).data('source'), 'urlurlurl');
 
       that.spineStorage.push($(this).data('id'));
       localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));

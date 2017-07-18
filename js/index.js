@@ -2,7 +2,7 @@
 
 var loadAndFetchSpine = {
   init: function () {
-
+    console.log('MStore');
     if (window.location.search) {
       this.language = window.location.search.split('?')[1].split('=')[1];
     } else {
@@ -19,6 +19,7 @@ var loadAndFetchSpine = {
     this.loadedSpineArr = this.spineStorage;
 
 
+
     this.definedBack();
     this.lanTitle();
 
@@ -26,13 +27,14 @@ var loadAndFetchSpine = {
     this.showAllSpine();
     this.downLoadSpine();
 
-    //this.spineLoadedList();//debug
-    //this.spineLoadedList('["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"] ');
+    this.spineLoadedList('[{"isDelAllSpine":"0"},{"id":"111"}]');
   },
   definedBack: function () {
+    var that = this;
     $('header').click(function () {
-      console.log('index definedBack')
-      window.MStore.definedBack();
+      console.log('index definedBack');
+      that.spineLoadedList('[{"isDelAllSpine":"1"},{"id":"000"}]');
+      //window.MStore.definedBack();
     })
   },
   //多语言 title
@@ -85,21 +87,31 @@ var loadAndFetchSpine = {
   },
   spineLoadedList: function (list) {
     //console.log("!localStorage")
-    if(list) {
-      var spineList = JSON.parse(list);
-      for (var i = 0; i < spineList.length; i++) {
-        this.spineStorage.push(spineList[i].id);
-      }
-      if (this.spineStorage != JSON.parse(localStorage.getItem("spineLoadedList"))) {
 
-        localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
-        this.loadedSpineArr = this.spineStorage;
-
-        //debug
-        //this.spineStorage = ["0x574d9c50de000000","0x574afe7d3c000000","0x574afe2526400000"];
-        //localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
-      }
-    }
+    var spineList = JSON.parse(list);
+    console.log(spineList)
+    //for (var i = 0; i < spineList.length; i++) {
+    //  if(i != 0) {
+    //    console.log('i = ' + i)
+    //    this.spineStorage.push(spineList[i].id);
+    //  }else {
+    //    console.log('i = ' + i)
+    //    console.log(spineList[i].isDelAllSpine)
+    //    this.spineStorage.push(spineList[0]);
+    //  }
+    //}
+    //console.log('spineLoadedList  :  ' + this.spineStorage);
+    //if(spineList[0].isDelAllSpine) {
+    //  localStorage.setItem("spineLoadedList", JSON.stringify("[]"));
+    //  this.loadedSpineArr = this.spineStorage;
+    //}else {
+    //
+    //  localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+    //  this.loadedSpineArr = this.spineStorage;
+    //}
+    //if (this.spineStorage != JSON.parse(localStorage.getItem("spineLoadedList"))) {
+    //
+    //}
 
   },
   createDetailSpines: function (item, imgBucket, endpoint) {
@@ -123,7 +135,7 @@ var loadAndFetchSpine = {
         }
 
         try {
-          for (var j = 0; j < this.loadedSpineArr.length; j++) {
+          for (var j = 1; j < this.loadedSpineArr.length; j++) {
             var spineDownCon = '<span class="download"></span>' + '</div>';
             if (item[i].spines[k].id == this.loadedSpineArr[j]) {
               spineDownCon = '</div>';
@@ -193,6 +205,7 @@ var loadAndFetchSpine = {
 
       //js调安卓
       window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
+      //debug
       //that.spineDidDownload($(this).data('source'), 'urlurlurl');
 
       //当前spine ——> storage
