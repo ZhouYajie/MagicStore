@@ -4,7 +4,7 @@ var loadAndFetchSpine = {
     this.language = window.location.search.split('?')[1].split('=')[1];
     this.itemInfo = JSON.parse(localStorage.getItem("itemInfo"));
 
-    this.spineStorage = [];
+    this.spineStorage = {};
     if(localStorage.getItem("spineLoadedList")) {
       this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
     }
@@ -56,8 +56,8 @@ var loadAndFetchSpine = {
     for (var i = 0; i < item.list.length; i++) {
       var list = $('<li class="item" data-source="' + item.list[i].source + '" data-page="' + item.currentPage + '" data-id="' + item.list[i].id + '"></li>');
       content = '<span class="download"></span>';
-      for (var k = 1; k < this.loadedSpineArr.length; k++) {
-        if (this.loadedSpineArr[k] == item.list[i].id) {
+      for (var key in this.loadedSpineArr) {
+        if (key == item.list[i].id) {
           content = '';
           break;
         }
@@ -109,25 +109,28 @@ var loadAndFetchSpine = {
     });
     //下载
     $('article section .scrollWrap').on('click', '.item', function () {
+      if($(this).find('.download').length == 1) {
+        var download = $(this).find('.download'),
+          spineInfo = that.spinesInfoArr[$(this).index()],
+          spineCover = $(this).find('.magic')[0].src;
+        spineInfo.cover = spineCover;
+        download.addClass('loading');
 
-      var download = $(this).find('.download'),
-        spineInfo = that.spinesInfoArr[$(this).index()],
-        spineCover = $(this).find('.magic')[0].src;
-      spineInfo.cover = spineCover;
-      download.addClass('loading');
+        TweenMax.to(download, .9, {
+          rotation: 360,
+          ease: Linear.easeOut,
+          repeat: -1
+        });
+        console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
 
-      TweenMax.to(download, .9, {
-        rotation: 360,
-        ease: Linear.easeOut,
-        repeat: -1
-      });
-      console.log('listDown spineInfo: ' + JSON.stringify(spineInfo))
+        //js调安卓
+        window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 
-      //window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-      that.spineDidDownload($(this).data('source'), 'urlurlurl');
+        //////////////////  debug  //////////////////
+        //that.spineDidDownload($(this).data('source'), 'urlurlurl');
 
-      that.spineStorage.push($(this).data('id'));
-      localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
+
+      }
     })
   },
   spineDidDownload: function (source, url) {
@@ -142,10 +145,15 @@ var loadAndFetchSpine = {
           opacity: 0,
           ease: Strong.easeOut,
           onComplete: function () {
-            download.hide();
+            download.remove();
           }
         });
       }, 500);
+
+      //console.log(downSpine.data('id'))
+      //console.log(downSpine.data('source'))
+      this.spineStorage[downSpine.data('id')] = downSpine.data('source');
+      localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
     }
 
 

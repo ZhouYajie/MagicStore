@@ -2,22 +2,19 @@
 
 var loadAndFetchSpine = {
   init: function () {
-    console.log('MStore');
     if (window.location.search) {
       this.language = window.location.search.split('?')[1].split('=')[1];
     } else {
       this.language = 'en';
     }
-    console.log(this.language)
 
     this.spineItem;
 
-    this.spineStorage = [];
+    this.spineStorage = {};
     if (localStorage.getItem("spineLoadedList")) {
       this.spineStorage = JSON.parse(localStorage.getItem("spineLoadedList"));
     }
     this.loadedSpineArr = this.spineStorage;
-
 
 
     this.definedBack();
@@ -27,15 +24,19 @@ var loadAndFetchSpine = {
     this.showAllSpine();
     this.downLoadSpine();
 
-    this.spineLoadedList('[{"isDelAllSpine":"0"},{"id":"111"}]');
+    //////////////////  debug  //////////////////
+    //this.spineLoadedList('[{"isDelAllSpine":false},{"objectKey":"output_effect_bixin.zip","id":"0x574d9c50de000000"},{"objectKey":"output_effect_dese.zip","id":"0x574afe7d3c000000"}]');
   },
   definedBack: function () {
     var that = this;
     $('header').click(function () {
       console.log('index definedBack');
-      that.spineLoadedList('[{"isDelAllSpine":"1"},{"id":"000"}]');
-      //window.MStore.definedBack();
-    })
+      window.MStore.definedBack();
+
+      //////////////////  debug  //////////////////
+      //that.spineLoadedList('[{"isDelAllSpine":true},{"objectKey":"output_effect_bixin.zip","id":"0x574d9c50de000000"}]');
+
+    });
   },
   //多语言 title
   lanTitle: function () {
@@ -86,32 +87,32 @@ var loadAndFetchSpine = {
     });
   },
   spineLoadedList: function (list) {
-    //console.log("!localStorage")
 
     var spineList = JSON.parse(list);
     console.log(spineList)
-    //for (var i = 0; i < spineList.length; i++) {
-    //  if(i != 0) {
-    //    console.log('i = ' + i)
-    //    this.spineStorage.push(spineList[i].id);
-    //  }else {
-    //    console.log('i = ' + i)
-    //    console.log(spineList[i].isDelAllSpine)
-    //    this.spineStorage.push(spineList[0]);
-    //  }
-    //}
-    //console.log('spineLoadedList  :  ' + this.spineStorage);
-    //if(spineList[0].isDelAllSpine) {
-    //  localStorage.setItem("spineLoadedList", JSON.stringify("[]"));
-    //  this.loadedSpineArr = this.spineStorage;
-    //}else {
-    //
-    //  localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
-    //  this.loadedSpineArr = this.spineStorage;
-    //}
-    //if (this.spineStorage != JSON.parse(localStorage.getItem("spineLoadedList"))) {
-    //
-    //}
+
+    if (spineList[0].isDelAllSpine) {//相机里删除了spine
+      console.log('isDelAllSpine true')
+
+      this.spineStorage = {};
+      for (var i = 1; i < spineList.length; i++) {
+        this.spineStorage[spineList[i].id] = spineList[i].objectKey;
+      }
+      localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+      this.loadedSpineArr = this.spineStorage;
+
+    } else {
+      console.log('isDelAllSpine false')
+
+      for (var i = 1; i < spineList.length; i++) {
+        this.spineStorage[spineList[i].id] = spineList[i].objectKey;
+      }
+
+      if (this.spineStorage != JSON.parse(localStorage.getItem("spineLoadedList"))) {
+        localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
+        this.loadedSpineArr = this.spineStorage;
+      }
+    }
 
   },
   createDetailSpines: function (item, imgBucket, endpoint) {
@@ -120,6 +121,7 @@ var loadAndFetchSpine = {
       spineItemsWrap.attr('data-categoryid', item[i].id);
       var spineItemsWrapCon = '<p class="spineTitle"><i>' + item[i].name + '</i><span class="showAll"></span></p> <div class="swiper-wrapper">'
 
+      //默认显示spine个数,暂时没用
       var spineLength = 5;
       if (item[i].spines.length <= spineLength) {
         spineLength = item[i].spines.length;
@@ -135,16 +137,17 @@ var loadAndFetchSpine = {
         }
 
         try {
-          for (var j = 1; j < this.loadedSpineArr.length; j++) {
+          for (var key in this.loadedSpineArr) {
             var spineDownCon = '<span class="download"></span>' + '</div>';
-            if (item[i].spines[k].id == this.loadedSpineArr[j]) {
+            if (item[i].spines[k].id == key) {
               spineDownCon = '</div>';
               break;
             }
           }
-          if (this.loadedSpineArr.length == 0) {
+          if (JSON.stringify(this.loadedSpineArr) == "{}") {
             var spineDownCon = '<span class="download"></span>' + '</div>';
           }
+
         } catch (e) {
           console.log(e.message);
         }
@@ -185,32 +188,32 @@ var loadAndFetchSpine = {
   downLoadSpine: function () {
     var that = this;
     $('section').on('click', '.classify .swiper-slide', function () {
+      if ($(this).find('.download').length == 1) {
+        var download = $(this).find('.download');
+        download.addClass('loading');
+        TweenMax.to(download, .9, {
+          rotation: 360,
+          ease: Linear.easeOut,
+          repeat: -1
+        });
 
-      //loading
-      var download = $(this).find('.download');
-      download.addClass('loading');
-      TweenMax.to(download, .9, {
-        rotation: 360,
-        ease: Linear.easeOut,
-        repeat: -1
-      });
+        //spineCover
+        var x = $(this).parents('.classify').index(),
+          y = $(this).index(),
+          spineInfo = that.spineItem[x].spines[y],
+          spineCover = $(this).find('.magic')[0].src;
+        spineInfo.cover = spineCover;
+        console.log('indexDown spineInfo: ' + JSON.stringify(spineInfo));
 
-      //spineCover
-      var x = $(this).parents('.classify').index(),
-        y = $(this).index(),
-        spineInfo = that.spineItem[x].spines[y],
-        spineCover = $(this).find('.magic')[0].src;
-      spineInfo.cover = spineCover;
-      console.log('indexDown spineInfo: ' + JSON.stringify(spineInfo));
 
-      //js调安卓
-      window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
-      //debug
-      //that.spineDidDownload($(this).data('source'), 'urlurlurl');
+        //js调安卓
+        window.MStore.spineWillDownload($(this).data('source'), $(this).data('id'), JSON.stringify(spineInfo));
 
-      //当前spine ——> storage
-      that.spineStorage.push($(this).data('id'));
-      localStorage.setItem("spineLoadedList", JSON.stringify(that.spineStorage));
+        //////////////////  debug  //////////////////
+        //that.spineDidDownload($(this).data('source'), 'urlurlurl');
+
+      }
+
     });
   },
   spineDidDownload: function (source, url) {
@@ -226,10 +229,15 @@ var loadAndFetchSpine = {
           opacity: 0,
           ease: Strong.easeOut,
           onComplete: function () {
-            download.hide();
+            download.remove();
           }
         });
       }, 500);
+      //console.log(downSpine.data('id'))
+      //console.log(downSpine.data('source'))
+      //当前spine ——> storage
+      this.spineStorage[downSpine.data('id')] = downSpine.data('source');
+      localStorage.setItem("spineLoadedList", JSON.stringify(this.spineStorage));
     }
   }
 };

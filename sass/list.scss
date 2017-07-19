@@ -65,16 +65,14 @@ article {
             flex-direction: row;
             flex-wrap: wrap;
             -webkit-overflow-scrolling: touch;
-            padding: ptr(193px) ptr(30px) ptr(138px) ptr(30px);
+            padding: ptr(193px) ptr(26px) ptr(138px) ptr(30px);
             .item {
                 position: relative;
                 //float: left;
-                width: ptr(132px);
-                height: ptr(132px);
-                margin-right: ptr(16px);
-                margin-bottom: ptr(70px);
+                width: ptr(146px);
+                height: ptr(202px);
                 background: url("../img/MS_icon_asset.png") no-repeat;
-                background-size: 100% 100%;
+                background-size: ptr(132px) ptr(132px);
                 overflow: hidden;
                 &:nth-of-type(4n) {
                     margin-right: 0;
@@ -103,8 +101,8 @@ article {
                 }
                 span.download {
                     position: absolute;
-                    right: ptr(3px);
-                    bottom: ptr(4px);
+                    right: ptr(16px);
+                    bottom: ptr(74px);
                     z-index: 3;
                     display: block;
                     width: ptr(32px);
